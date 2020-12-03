@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded' , () => {
   let pigBottom = 100
   let gravity = 2
   let isGameOver = false
+  let gap = 450
 
   function startGame() {
     /*
@@ -58,14 +59,21 @@ document.addEventListener('DOMContentLoaded' , () => {
       let randomHeight = Math.random() * 60
       let obstacleBottom = randomHeight
       const obstacle = document.createElement('div')
+      const northObstacle = document.createElement('div')
+
       // If game is not over continue to generate obstacles.
-      if (!isGameOver) obstacle.classList.add('obstacle')
-      obstacle.classList.add('obstacle')
+      if (!isGameOver) {
+        obstacle.classList.add('obstacle')
+        northObstacle.classList.add('northObstacle')
+      }
       // Add obstacle to the game display.
       gameDisplay.appendChild(obstacle)
+      gameDisplay.appendChild(northObstacle)
       // Move obstacle to the left and up/down.
       obstacle.style.left = obstacleLeft + 'px'
+      northObstacle.style.left = obstacleLeft + 'px'
       obstacle.style.bottom = obstacleBottom + 'px'
+      northObstacle.style.bottom = obstacleBottom + gap + 'px'
 
       function moveObstacle() {
         /*
@@ -76,16 +84,18 @@ document.addEventListener('DOMContentLoaded' , () => {
         obstacleLeft -= 2
         // Add 100 px to the obstacle relative to the div it is in.
         obstacle.style.left = obstacleLeft + 'px'
+        northObstacle.style.left = obstacleLeft + 'px'
 
         // Once obstacle has moved left until it is off the screen, remove it.
         if (obstacleLeft === -60) {
           clearInterval(timerId)
           gameDisplay.removeChild(obstacle)
+          gameDisplay.removeChild(northObstacle)
         }
         // Game ends if these requirements are met.
         if (
           obstacleLeft > 200 && obstacleLeft < 280 && pigLeft === 220 &&
-          pigBottom < obstacleBottom + 153||
+          (pigBottom < obstacleBottom + 153 || pigBottom > obstacleBottom + gap - 200) ||
           pigBottom === 0) {
           gameOver()
           // Game timer is reset.

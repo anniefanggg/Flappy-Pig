@@ -1,7 +1,38 @@
+body {
+  // Make div appear side by side rather than on top of one another.
+  display: flex;
+}
 .game-container {
   width: 500px;
-  height: 740px;
+  height: 730px;
   position: absolute;
+  left: 80px;
+}
+
+.border-left {
+  width: 80px;
+  height: 790px;
+  position: absolute;
+  background-color: white;
+  z-index: +2
+}
+
+.border-right {
+  width: 80px;
+  height: 790px;
+  position: absolute;
+  background-color: white;
+  z-index: +2
+  left: 580px;
+}
+
+.border-top {
+  width: 660px;
+  height: 50px;
+  position: absolute;
+  background-color: white;
+  z-index: +2
+  top: -50px;
 }
 
 .sky {
@@ -17,17 +48,26 @@
   height: 150px;
   position: absolute;
   top: 580px;
+  z-index: +1
 }
 
 .pig {
-  background-color: pink;
+  background-image: url('pig.png');
   position: absolute;
   width: 40px;
   height: 25px;
 }
 
 .obstacle {
-  background-color: green;
+  background-image: url('pipeSouth.png');
+  width: 53px;
+  height: 300px;
+  position: absolute;
+}
+
+.northObstacle {
+  background-image: url('pipeSouth.png');
+  transform: rotate(180deg);
   width: 53px;
   height: 300px;
   position: absolute;
