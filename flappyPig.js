@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded' , () => {
   let pigLeft = 220
   let pigBottom = 100
   let gravity = 2
+  let isGameOver = false
 
   function startGame() {
     /*
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     pig.style.left = pigLeft + 'px'
   }
   // Get the pig to appear to be dropping forever.
-  let timerId = setInterval(startGame, 20)
+  let gameTimerId = setInterval(startGame, 20)
 
   function control(event) {
     /*
@@ -46,4 +47,69 @@ document.addEventListener('DOMContentLoaded' , () => {
   }
   document.addEventListener('keyup', control)
 
+    function generateObstacle() {
+      /*
+        Parameters: None
+        Returns: None
+        Purpose: Generates an obstacle of random height that moves to the left
+        as long as game is not yet over.
+      */
+      let obstacleLeft = 500
+      let randomHeight = Math.random() * 60
+      let obstacleBottom = randomHeight
+      const obstacle = document.createElement('div')
+      // If game is not over continue to generate obstacles.
+      if (!isGameOver) obstacle.classList.add('obstacle')
+      obstacle.classList.add('obstacle')
+      // Add obstacle to the game display.
+      gameDisplay.appendChild(obstacle)
+      // Move obstacle to the left and up/down.
+      obstacle.style.left = obstacleLeft + 'px'
+      obstacle.style.bottom = obstacleBottom + 'px'
+
+      function moveObstacle() {
+        /*
+          Parameters: None
+          Returns: None
+          Purpose: Either moves obstacle to left until it is off the screen or until game is over.
+        */
+        obstacleLeft -= 2
+        // Add 100 px to the obstacle relative to the div it is in.
+        obstacle.style.left = obstacleLeft + 'px'
+
+        // Once obstacle has moved left until it is off the screen, remove it.
+        if (obstacleLeft === -60) {
+          clearInterval(timerId)
+          gameDisplay.removeChild(obstacle)
+        }
+        // Game ends if these requirements are met.
+        if (
+          obstacleLeft > 200 && obstacleLeft < 280 && pigLeft === 220 &&
+          pigBottom < obstacleBottom + 153||
+          pigBottom === 0) {
+          gameOver()
+          // Game timer is reset.
+          clearInterval(timerId)
+        }
+
+      }
+      // Moves obstacle every 20 ms and generates new obstacle every 3000 ms.
+      let timerId = setInterval(moveObstacle, 20)
+      if (!isGameOver) setTimeout(generateObstacle, 3000)
+    }
+    generateObstacle()
+
+    function gameOver() {
+      /*
+        Parameters: None
+        Returns: None
+        Purpose: Stops game timer and also jumping effect associated with space bar.
+      */
+      // When game is over stop timer
+      clearInterval(gameTimerId)
+      console.log('game over')
+      isGameOver = true
+      // Removes jumping effect (keyup) when space bar (control) is hit.
+      document.removeEventListener('keyup', control)
+    }
 })

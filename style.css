@@ -20,8 +20,15 @@
 }
 
 .pig {
-  background-color: lightPink;
+  background-color: pink;
   position: absolute;
-  width: 60px;
-  height: 45px;
+  width: 40px;
+  height: 25px;
+}
+
+.obstacle {
+  background-color: green;
+  width: 53px;
+  height: 300px;
+  position: absolute;
 }
