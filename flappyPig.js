@@ -17,9 +17,11 @@ document.addEventListener('DOMContentLoaded' , () => {
       Returns: None
       Purpose: Graphs pig relative to the sky element.
     */
-    pigBottom -= gravity
-    pig.style.bottom = pigBottom + 'px'
-    pig.style.left = pigLeft + 'px'
+    if (!isGameOver) {
+      pigBottom -= gravity
+      pig.style.bottom = pigBottom + 'px'
+      pig.style.left = pigLeft + 'px'
+    }
   }
   // Get the pig to appear to be dropping forever.
   let gameTimerId = setInterval(startGame, 20)
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         as long as game is not yet over.
       */
       let obstacleLeft = 500
-      let randomHeight = Math.random() * 60
+      let randomHeight = Math.random() * 80
       let obstacleBottom = randomHeight
       const obstacle = document.createElement('div')
       const northObstacle = document.createElement('div')
@@ -81,6 +83,7 @@ document.addEventListener('DOMContentLoaded' , () => {
           Returns: None
           Purpose: Either moves obstacle to left until it is off the screen or until game is over.
         */
+        if (!isGameOver) {}
         obstacleLeft -= 2
         // Add 100 px to the obstacle relative to the div it is in.
         obstacle.style.left = obstacleLeft + 'px'
@@ -119,7 +122,14 @@ document.addEventListener('DOMContentLoaded' , () => {
       clearInterval(gameTimerId)
       console.log('game over')
       isGameOver = true
+      displayGameOver()
       // Removes jumping effect (keyup) when space bar (control) is hit.
       document.removeEventListener('keyup', control)
+    }
+
+    function displayGameOver () {
+      if (isGameOver) {
+        alert("Game over. Reload page to play again.")
+      }
     }
 })
