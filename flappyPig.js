@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded' , () => {
       let timerId = setInterval(moveObstacle, 20)
       if (!isGameOver) setTimeout(generateObstacle, 3000)
     }
+    
     generateObstacle()
 
     function gameOver() {
@@ -128,6 +129,11 @@ document.addEventListener('DOMContentLoaded' , () => {
     }
 
     function displayGameOver () {
+      /*
+        Parameters: None
+        Returns: None
+        Purpose: Displays alert if game is over.
+      */
       if (isGameOver) {
         alert("Game over. Reload page to play again.")
       }
